@@ -1,0 +1,24 @@
+# Virtual Environment
+.venv/
+venv/
+*.pyc
+__pycache__/
+
+# Environment variables
+.env
+
+# Flask instance folder (if used for sqlite databases, etc.)
+instance/
+
+# Test/coverage related files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Distribution/packaging
+dist/
+build/
+*.egg-info/
+
+# Logs (if any)
+*.log
