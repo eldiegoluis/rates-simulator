@@ -17,7 +17,6 @@ htmlcov/
 
 # Distribution/packaging
 dist/
-build/
 *.egg-info/
 
 # Logs (if any)

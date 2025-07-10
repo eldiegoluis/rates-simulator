@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./assets/css/vendors.css" />
+
+    <title>Almasell calculator</title>
+</head>
+<body>
+        <nav class="header | navbar">
+        <div class="container flex-nowrap gap-3">
+            <div class="header__left">
+                <ul class="navbar-nav">
+                    
+                        <li class="nav-item | d-none d-lg-block">
+                            <a href="/checkout" class="nav-link"><i class="bi-arrow-left me-2"></i>Volver</a>
+                        </li>
+                        <li class="nav-item | d-lg-none">
+                            <a href="/checkout" class="header__action-btn | btn">
+                                <i class="btn-icon | bi-arrow-left-short"></i>
+                                <span class="header__action-btn-label">Volver</span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="header__center">
+                <a href="." class="navbar-brand">
+                    <img src="./assets/img/logo.svg" class="logo" alt="">
+                </a>
+            </div>
+            <div class="header__right">
+                
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8 col-xxl-6">
+                    <h1 class="mb-3 fs-3">Resumen</h1>
+
+                    <div class="vstack gap-4">
+                        <div class="vstack text-body-secondary bg-light p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>Entrada</div><div class="text-body" data-summary="reception">$0</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div>Almacenamiento</div><div class="text-body" data-summary="storage">$0</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div>Salida</div><div class="text-body" data-summary="output">$0</div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="">
+                                <div class="d-flex justify-content-between text-body fw-semibold">
+                                    <div>Total</div><div data-summary="total">$0</div>
+                                </div>
+                            </div>
+                        </div>
+                              <!-- Details Lists -->
+                        <div>
+                            <h2 class="fs-6 mb-3">Entrada - Detalle</h2>
+                            <ul id="summary-reception-detail" class="list-unstyled vstack"></ul>
+
+                            <h2 class="fs-6 mb-3 mt-4">Almacenamiento - Detalle</h2>
+                            <ul id="summary-storage-detail" class="list-unstyled vstack"></ul>
+
+                            <h2 class="fs-6 mb-3 mt-4">Salida - Detalle</h2>
+                            <ul id="summary-output-detail" class="list-unstyled vstack"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const payloadRaw = sessionStorage.getItem('summaryData');
+    if (!payloadRaw) return console.error('No summaryData in sessionStorage');
+
+    const { reception, storage, output, summary } = JSON.parse(payloadRaw);
+
+    document.querySelector('[data-summary="reception"]').textContent = summary.r;
+    document.querySelector('[data-summary="storage"]').textContent = summary.s;
+    document.querySelector('[data-summary="output"]').textContent = summary.o;
+    document.querySelector('[data-summary="total"]').textContent = summary.total;
+
+
+
+
+    
+    // 2. Render lists
+    const renderDetailList = (container, items, withFees = true) => {
+      container.innerHTML = '';
+      items.forEach(item => {
+        if (item.type === 'reception_type') {
+          // special case: show the .value
+          container.insertAdjacentHTML('beforeend', `
+            <li class="py-2">
+              <div class="fw-semibold">${item.label}</div>
+              <div class="text-body-secondary">${item.value}</div>
+            </li>
+          `);
+        } else {
+          // product case as before
+          const feeHtml = withFees
+            ? `<div class="text-body fw-semibold">${item.fee}</div>`
+            : '';
+          container.insertAdjacentHTML('beforeend', `
+            <li class="d-flex justify-content-between py-2">
+              <div>
+                <div class="fw-semibold">${item.label}</div>
+                ${item.subtitle ? `<small class="text-body-secondary">${item.subtitle}</small>` : ''}
+              </div>
+              ${feeHtml}
+            </li>
+          `);
+        }
+      });
+    };
+
+    renderDetailList(
+      document.querySelector('#summary-reception-detail'),
+      reception
+    );
+
+    renderDetailList(
+      document.querySelector('#summary-storage-detail'),
+      storage
+    );
+
+    renderDetailList(
+      document.querySelector('#summary-output-detail'),
+      output.items
+    );
+  });
+</script>
+
+<script src="./assets/js/plugins/bootstrap.bundle.min.js" charset="utf-8"></script>
+<script src="./assets/js/plugins/swiper-bundle.min.js" charset="utf-8"></script>
+<script src="./assets/js/main.js" charset="utf-8"></script>
+</body>
+</html>

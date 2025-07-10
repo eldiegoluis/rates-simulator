@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./assets/css/vendors.css" />
+
+    <title>Almasell calculator</title>
+</head>
+<body>
+        <nav class="header | navbar">
+        <div class="container flex-nowrap gap-3">
+            <div class="header__left">
+                <ul class="navbar-nav">
+                    
+                </ul>
+            </div>
+            <div class="header__center">
+                <a href="." class="navbar-brand">
+                    <img src="./assets/img/logo.svg" class="logo" alt="">
+                </a>
+            </div>
+            <div class="header__right">
+                
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-5">
+        <div class="container">
+            <div class="hstack justify-content-between gap-3 mb-5">
+                <div>
+                    <div class="tx-small-1 text-body-secondary mb-2">Estima tus tarifas con AlmaSell</div>
+                    <h1 class="h3">Ingresa tus productos</h1>
+                </div>
+                <div>
+                    <a href="checkout.html" id="continueBtn" class="btn btn-primary">Continuar</a>
+                </div>
+            </div>
+            <form action="/details" autocomplete="off">
+                <div class="product-input vstack gap-3 gap-lg-0">
+                    <div class="product-input__item">
+                        <div class="row gy-3 gy-lg-0">
+                            <div class="col-lg-4">
+                                <div class="pt-3 py-lg-3">
+                                    <div class="hstack justify-content-between gap-3 mb-1">
+                                        <label for="product-name-1" class="form-label mb-0">Nombre de producto</label>
+                                        <div class="flex-shrink-0">
+                                            <button type="button" class="js-remove-product-row | btn text-danger btn-sm px-1 py-0" title="Eliminar producto"><i class="bi-trash"></i></button>
+                                        </div>
+                                    </div>
+                                    <input id="product-name-1" data-field="product" type="text" class="form-control" placeholder="Escribe...">
+                                </div>
+                            </div>
+                            <div class="d-none d-lg-block col-lg-auto">
+                                <div class="vr h-100" style="color: var(--bs-border-color);"></div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="row gy-3 gy-lg-0">
+                                    <div class="col-6 col-md-3 col-lg">
+                                        <div class="py-lg-3">
+                                            <label for="product-weight-1" class="form-label">Peso (kg)</label>
+                                            <input id="product-weight-1" data-field="weight" type="number" min="0" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-lg-block col-lg-auto">
+                                        <div class="product-input__divider | vr"></div>
+                                    </div>
+                                    <div class="col-6 col-md-3 col-lg">
+                                        <div class="py-lg-3">
+                                            <label for="product-width-1" class="form-label">Ancho (cm)</label>
+                                            <input id="product-width-1" data-field="width" type="number" min="0" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-lg-block col-lg-auto">
+                                        <div class="product-input__divider | vr"></div>
+                                    </div>
+                                    <div class="col-6 col-md-3 col-lg">
+                                        <div class="py-lg-3">
+                                            <label for="product-height-1" class="form-label">Altura (cm)</label>
+                                            <input id="product-height-1" data-field="height" type="number" min="0" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-lg-block col-lg-auto">
+                                        <div class="product-input__divider | vr"></div>
+                                    </div>
+                                    <div class="col-6 col-md-3 col-lg">
+                                        <div class="py-lg-3">
+                                            <label for="product-depth-1" class="form-label">Profundidad (cm)</label>
+                                            <input id="product-depth-1" data-field="depth" type="number" min="0" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="product-input__add-button border-top-0">
+                    <div class="py-4">
+                        <button id="addNewItem" type="button" class="btn btn-light">Agregar otro producto</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    
+<script src="./assets/js/plugins/bootstrap.bundle.min.js" charset="utf-8"></script>
+<script src="./assets/js/plugins/swiper-bundle.min.js" charset="utf-8"></script>
+<script src="./assets/js/main.js" charset="utf-8"></script>
+
+    <!-- clone product items -->
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const addProductButton = document.querySelector('#addNewItem');
+    const productInputContainer = document.querySelector('.product-input');
+    // It's crucial that product-input__item exists in your HTML initially as a template
+    const productInputItemTemplate = document.querySelector('.product-input__item');
+
+    // Initial population for a desired number of empty rows
+    const INITIAL_EMPTY_ROWS = 5;
+
+    // Function to initialize the dynamic rows on page load
+    const initializeProductRows = () => {
+        // Ensure there's always at least one template row or add it if missing
+        if (!productInputItemTemplate) {
+            console.error("Template '.product-input__item' not found. Cannot initialize product rows.");
+            return;
+        }
+
+        // Get actual currently rendered product items (excluding the template if it's hidden/special)
+        const currentProductItems = productInputContainer.querySelectorAll('.product-input__item');
+        
+        // If there are no items initially, or fewer than desired, add them
+        if (currentProductItems.length === 0) {
+            // Add INITIAL_EMPTY_ROWS instances
+            for (let i = 0; i < INITIAL_EMPTY_ROWS; i++) {
+                createAndAppendNewProductRow();
+            }
+        } else if (currentProductItems.length < INITIAL_EMPTY_ROWS) {
+            // If some exist but not enough, add the remaining
+            for (let i = currentProductItems.length; i < INITIAL_EMPTY_ROWS; i++) {
+                createAndAppendNewProductRow();
+            }
+        }
+        // Attach remove functionality to all existing/new items
+        productInputContainer.querySelectorAll('.product-input__item').forEach((item) => {
+            attachRemoveButtonFunctionality(item);
+        });
+    };
+
+    // Helper function to create and append a new product row
+    const createAndAppendNewProductRow = () => {
+        if (!productInputItemTemplate) {
+            console.error("Cannot create new product row: template missing.");
+            return;
+        }
+        const clonedItem = productInputItemTemplate.cloneNode(true);
+        // Remove any specific classes from the template that might make it invisible or special
+        clonedItem.classList.remove('d-none', 'template-row'); // Example: remove a 'd-none' class if template is hidden
+
+        // Reset all input values in the cloned item and give unique IDs
+        clonedItem.querySelectorAll('input').forEach((input, index) => {
+            input.value = ''; // Clear value
+            // Generate a more robust unique ID for each input
+            const baseId = input.id.split('-')[0] || `input`; // Use base like 'product', 'weight', etc.
+            const uniqueId = `${baseId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${index}`;
+            const oldId = input.id; // Store old ID to find its label
+
+            input.id = uniqueId; // Set new unique ID
+
+            // Update associated label's 'for' attribute
+            const label = clonedItem.querySelector(`label[for="${oldId}"]`);
+            if (label) {
+                label.setAttribute('for', uniqueId);
+            }
+        });
+
+        // Clear any `data-product-id` if the template had one, as new products don't have it yet
+        clonedItem.removeAttribute('data-product-id');
+
+        // Append the new row
+        productInputContainer.appendChild(clonedItem);
+
+        // Attach remove functionality to the newly added item
+        attachRemoveButtonFunctionality(clonedItem);
+    };
+
+    // Event listener for "Add New Item" button
+    if (addProductButton) {
+        addProductButton.addEventListener('click', createAndAppendNewProductRow);
+    } else {
+        console.warn("Button '#addNewItem' not found.");
+    }
+
+    // Function to attach remove functionality to .js-remove-product-row buttons
+    const attachRemoveButtonFunctionality = (container) => {
+        const removeButton = container.querySelector('.js-remove-product-row');
+        if (removeButton) {
+            removeButton.removeEventListener('click', handleRemoveButtonClick); // Prevent duplicate listeners
+            removeButton.addEventListener('click', handleRemoveButtonClick);
+        }
+    };
+
+    // Event handler for remove button click
+    const handleRemoveButtonClick = (event) => {
+        const button = event.target.closest('.js-remove-product-row');
+        if (!button) return; // Should not happen if event listener is correctly attached
+
+        const itemToRemove = button.closest('.product-input__item');
+        if (!itemToRemove) return; // Should not happen
+
+        const productItems = productInputContainer.querySelectorAll('.product-input__item');
+
+        if (productItems.length > 1) {
+            itemToRemove.remove();
+        } else {
+            // If it's the last item, clear its inputs instead of removing it
+            itemToRemove.querySelectorAll('input').forEach(input => input.value = '');
+        }
+    };
+
+    // Intercept form submission with JS (continueBtn click)
+    const continueButton = document.getElementById('continueBtn');
+    if (continueButton) {
+        continueButton.addEventListener('click', async e => {
+            e.preventDefault();
+
+            const items = Array.from(productInputContainer.querySelectorAll('.product-input__item'))
+                .map(item => {
+                    // Using data-field is good, ensure your HTML inputs have them.
+                    // Example: <input type="text" data-field="product" ...>
+                    const get = key => {
+                        const inputElement = item.querySelector(`[data-field="${key}"]`);
+                        return inputElement ? inputElement.value : '';
+                    };
+                    return {
+                        product_name: get('product'),
+                        weight: Number(get('weight')),
+                        width: Number(get('width')),
+                        height: Number(get('height')),
+                        depth: Number(get('depth')),
+                    };
+                })
+                .filter(item => 
+                    item.product_name.trim() !== '' || 
+                    (item.weight > 0) || (item.width > 0) || 
+                    (item.height > 0) || (item.depth > 0)
+                ); // Filter out truly empty rows
+
+            if (items.length === 0) {
+                alert('Please enter details for at least one product before continuing.');
+                return;
+            }
+
+            try {
+                const resp = await fetch('/details', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ products: items })
+                });
+
+                if (resp.ok) {
+                    const result = await resp.json();
+                    if (result.products && Array.isArray(result.products)) {
+                        // Store the backend-generated product catalog (with IDs)
+                        sessionStorage.setItem('currentProductCatalog', JSON.stringify(result.products));
+                        window.location.href = 'checkout';
+                    } else {
+                        console.error('Backend did not return expected product data with IDs:', result);
+                        alert('Error: Invalid product data received from server. Please try again.');
+                    }
+                } else {
+                    const errorDetails = await resp.text();
+                    console.error('Form submission failed:', resp.status, resp.statusText, errorDetails);
+                    alert(`There was an error submitting your product details: ${resp.status} - ${errorDetails}. Please try again.`);
+                }
+            } catch (error) {
+                console.error('Network or unexpected error during form submission:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+            }
+        });
+    } else {
+        console.warn("Button '#continueBtn' not found.");
+    }
+
+    // Initialize product rows on page load
+    initializeProductRows();
+});
+
+    </script>
+</body>
+</html>
