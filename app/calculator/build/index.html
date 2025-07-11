@@ -45,7 +45,7 @@
                     <h1 class="h3">Ingresa tus productos</h1>
                 </div>
                 <div>
-                    <a href="checkout.html" id="continueBtn" class="btn btn-primary">Continuar</a>
+                    <a href="{{ url_for('calculator.checkout_page') }}" id="continueBtn" class="btn btn-primary">Continuar</a>
                 </div>
             </div>
             <form action="/details" autocomplete="off">
@@ -125,6 +125,7 @@
     <!-- clone product items -->
     <script>
 document.addEventListener('DOMContentLoaded', () => {
+    const BASE_URL = "{{ url_for('calculator.index') }}".replace(/\/$/, '');
     const addProductButton = document.querySelector('#addNewItem');
     const productInputContainer = document.querySelector('.product-input');
     // It's crucial that product-input__item exists in your HTML initially as a template
@@ -267,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const resp = await fetch('/details', {
+                const resp = await fetch(`${BASE_URL}/details`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ products: items })

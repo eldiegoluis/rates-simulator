@@ -258,7 +258,7 @@
             </div>
             <div class="d-grid mt-3">
                 <!-- <div data-bs-toggle="tooltip" title="Debes completar todos los pasos para generar el resumen."> -->
-                    <a href="summary.html" id="finishBtn" class="btn btn-primary w-100 ">Ver resumen</a>
+                    <a href="{{ url_for('calculator.summary') }}" id="finishBtn" class="btn btn-primary w-100 ">Ver resumen</a>
                 </div>
             </div>
         </div>
@@ -269,6 +269,8 @@
         //───────────────────────────────────────────
         // STATE + ELEMENT REFS
         //───────────────────────────────────────────
+        const BASE_URL = "{{ url_for('calculator.index') }}".replace(/\/$/, '');
+
         let storagePayload = [];
 
         const sidebarReceptionList    = document.getElementById('sidebar-reception-list');
@@ -413,7 +415,7 @@
                 })
                 .filter(item => item !== null); // Filter out any items where product_id was missing
 
-            fetch('/simulate-order', {
+            fetch(`${BASE_URL}/simulate-order`, {
                 method: 'POST',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({ order_items: payload })
@@ -451,7 +453,7 @@
                 product_id: el.dataset.productId,
                 sales_percentage: +el.querySelector('.form-range').value
                 }));
-            fetch('/simulate-monthly-sales', {
+            fetch(`${BASE_URL}/simulate-monthly-sales`, {
                 method: 'POST',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({ sales_percentages: payload })
@@ -789,7 +791,7 @@
                     return;
                 }
 
-                fetch('/calculate-inventory-costs', {
+                fetch(`${BASE_URL}/calculate-inventory-costs`, {
                     method: 'POST',
                     headers: {'Content-Type':'application/json'},
                     body: JSON.stringify({ quantities: itemsToSend }) 
