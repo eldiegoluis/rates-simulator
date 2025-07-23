@@ -11,7 +11,7 @@ def create_app():
 
     app = Flask(
         __name__,
-        static_folder='calculator/build/assets',
+        static_folder='calculator/build',
         template_folder='calculator/build'
     )
 

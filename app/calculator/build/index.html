@@ -12,9 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="./assets/css/main.css" />
-    <link rel="stylesheet" href="./assets/css/bootstrap-icons.css" />
-    <link rel="stylesheet" href="./assets/css/vendors.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/vendors.css') }}">
 
     <title>Almasell calculator</title>
 </head>
@@ -28,7 +28,7 @@
             </div>
             <div class="header__center">
                 <a href="." class="navbar-brand">
-                    <img src="./assets/img/logo.svg" class="logo" alt="">
+                    <img src="{{ url_for('static', filename='assets/img/logo.svg') }}" class="logo" alt="">
                 </a>
             </div>
             <div class="header__right">
@@ -118,9 +118,9 @@
     </main>
 
     
-<script src="./assets/js/plugins/bootstrap.bundle.min.js" charset="utf-8"></script>
-<script src="./assets/js/plugins/swiper-bundle.min.js" charset="utf-8"></script>
-<script src="./assets/js/main.js" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='assets/js/plugins/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/plugins/swiper-bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
 
     <!-- clone product items -->
     <script>
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (result.products && Array.isArray(result.products)) {
                         // Store the backend-generated product catalog (with IDs)
                         sessionStorage.setItem('currentProductCatalog', JSON.stringify(result.products));
-                        window.location.href = 'checkout';
+                        window.location.href = `${BASE_URL}/checkout`;
                     } else {
                         console.error('Backend did not return expected product data with IDs:', result);
                         alert('Error: Invalid product data received from server. Please try again.');
