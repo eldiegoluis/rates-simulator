@@ -1,0 +1,5 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/h32xpyotdk9q/python-apps/rates-simulator/ 
+    - /bin/rsync -av --delete --exclude='.git' --exclude='.env' --exclude='.venv' . $DEPLOYPATH/ # Copy all files from the repo to the deployment path
+    - touch $DEPLOYPATH/tmp/restart.txt

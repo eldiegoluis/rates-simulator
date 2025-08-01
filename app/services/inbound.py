@@ -10,21 +10,12 @@ def compute_inbound_rates(initial_inventory: InitialInventory) -> None:
     rate = s.get_in_rate_by_size(initial_inventory.size)
 
     for rp in initial_inventory.received_products:
-        rp.total_inbound_fee = rate * rp.quantity_received
+        rp.total_inbound_fee = rate * rp.quantity_received * rp.product.vol_weight
         total_inbound_cost_for_batch += rp.total_inbound_fee 
 
     initial_inventory.total_inbound_cost_for_batch = total_inbound_cost_for_batch
 
 
-# def get_total_inbound_cost_for_batch(received_products: List[ReceivedProduct]) -> float:
-#     """
-#     Calculates the sum of all inbound rates for a list of products.
-#     Assumes compute_inbound_rates has already been called.
-#     """
-#     total_cost = 0.0
-#     for rp in received_products:
-#         total_cost += rp.total_inbound_fee
-#     return total_cost
 
 def assign_size(initial_inventory: InitialInventory) -> None:
     s = get_settings()
