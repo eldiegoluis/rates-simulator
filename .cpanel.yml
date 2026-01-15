@@ -1,3 +1,9 @@
 deployment:
   tasks:
+    - /bin/mkdir -p /home/h32xpyotdk9q/public_html/calc/build
+    - /usr/bin/rsync -av --delete app/calculator/build/ /home/h32xpyotdk9q/public_html/calc/build/
+    - /bin/chown -R h32xpyotdk9q:h32xpyotdk9q /home/h32xpyotdk9q/public_html/calc
+    - /usr/bin/find /home/h32xpyotdk9q/public_html/calc -type d -exec chmod 755 {} \;
+    - /usr/bin/find /home/h32xpyotdk9q/public_html/calc -type f -exec chmod 644 {} \;
+    - echo "Succesful opy frontend build -> public_html/calc"
     - echo "Deploy completed. Using repository as app root."
