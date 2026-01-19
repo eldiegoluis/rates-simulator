@@ -46,7 +46,7 @@
                     <h1 class="h3">Ingresa tus productos</h1>
                 </div>
                 <div>
-                    <a href="/api/calculator/checkout" id="continueBtn" class="btn btn-primary">Continuar</a>
+                    <a href="/api/checkout" id="continueBtn" class="btn btn-primary">Continuar</a>
                 </div>
             </div>
             <form action="/details" autocomplete="off">
@@ -128,7 +128,7 @@
     <!-- clone product items -->
     <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const BASE_URL = "/api/calculator";
+    const BASE_URL = "/api";
     const addProductButton = document.querySelector('#addNewItem');
     const productInputContainer = document.querySelector('.product-input');
     // It's crucial that product-input__item exists in your HTML initially as a template
