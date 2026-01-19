@@ -259,7 +259,7 @@
             </div>
             <div class="d-grid mt-3">
                 <!-- <div data-bs-toggle="tooltip" title="Debes completar todos los pasos para generar el resumen."> -->
-                    <a href="{{ url_for('calculator.summary') }}" id="finishBtn" class="btn btn-primary w-100 ">Ver resumen</a>
+                    <a href="/api/calculator/summary" id="finishBtn" class="btn btn-primary w-100 ">Ver resumen</a>
                 </div>
             </div>
         </div>
@@ -270,7 +270,7 @@
         //───────────────────────────────────────────
         // STATE + ELEMENT REFS
         //───────────────────────────────────────────
-        const BASE_URL = "{{ url_for('calculator.index') }}".replace(/\/$/, '');
+        const BASE_URL = "/api/calculator";
 
         let storagePayload = [];
 
