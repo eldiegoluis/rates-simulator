@@ -365,7 +365,7 @@
                 </div>
             </li>
             `));
-            summaryOut.textContent = `$${data.total_order_cost.toFixed(2)}`;
+            summaryOut.textContent = `€${data.total_order_cost.toFixed(2)}`;
             updateTotal();
             // toggleOutputSidebar(true);
         }
@@ -381,10 +381,10 @@
                 <div class="fw-semibold">${item.product_name}</div>
                 <small class="text-body-secondary">${item.simulated_quantity_sold} pedidos –  1 unidad c/u</small>
                 </div>
-                <div class="flex-shrink-0 text-nowrap fw-semibold">$${item.total_orders_cost_per_product.toFixed(2)}</div>
+                <div class="flex-shrink-0 text-nowrap fw-semibold">€${item.total_orders_cost_per_product.toFixed(2)}</div>
             </li>
             `));
-            summaryOut.textContent = `$${data.total_monthly_cost.toFixed(2)}`;
+            summaryOut.textContent = `€${data.total_monthly_cost.toFixed(2)}`;
             updateTotal();
             // toggleOutputSidebar(false);
         }
@@ -393,7 +393,7 @@
             const r = parseFloat(summaryRec.textContent.slice(1))||0;
             const s = parseFloat(summaryStr.textContent.slice(1))||0;
             const o = parseFloat(summaryOut.textContent.slice(1))||0;
-            summaryTotal.textContent = `$${(r+s+o).toFixed(2)}`;
+            summaryTotal.textContent = `€${(r+s+o).toFixed(2)}`;
         }
 
 
@@ -972,7 +972,7 @@
                     <div class="fw-semibold">${product.product_name}</div>
                     <small class="text-body-secondary">${quantity_received} unidades</small>
                 </div>
-                <div class="flex-shrink-0 text-nowrap fw-semibold">$${total_inbound_fee.toFixed(2)}</div>
+                <div class="flex-shrink-0 text-nowrap fw-semibold">€${total_inbound_fee.toFixed(2)}</div>
                 </li>
             `);
             sidebarStorageList.insertAdjacentHTML('beforeend', `
@@ -981,12 +981,12 @@
                     <div class="fw-semibold">${product.product_name}</div>
                     <small class="text-body-secondary">${quantity_received} unidades</small>
                 </div>
-                <div class="flex-shrink-0 text-nowrap fw-semibold">$${item.total_storage_fee.toFixed(2)} /mes</div>
+                <div class="flex-shrink-0 text-nowrap fw-semibold">€${item.total_storage_fee.toFixed(2)} /mes</div>
                 </li>
             `);
             });
-            summaryRec.textContent = `$${data.total_inbound_cost.toFixed(2)}`;
-            summaryStr.textContent = `$${data.total_storage_cost.toFixed(2)}`;
+            summaryRec.textContent = `€${data.total_inbound_cost.toFixed(2)}`;
+            summaryStr.textContent = `€${data.total_storage_cost.toFixed(2)}`;
             updateTotal();
         }
 
