@@ -8,11 +8,13 @@ def _calc_tiers_fee(remaining: float, s: Settings) -> float:
     tiers = s.sorted_tiers
     
     fee = 0.0
+    prev_weight = 55
     while remaining > 0:
         for vol_weight, rate in tiers:
             if remaining >= vol_weight:
                 fee += rate
-                remaining -= vol_weight
+                remaining -= prev_weight
+                prev_weight = vol_weight
                 # Once a tier is applied, restart checking from the highest tier.
                 break
         else:
@@ -42,9 +44,9 @@ def compute_outbound(vol_weight: float,
     # above limit: chunk into full‑limit + remainder
     full_chunks = vol_weight // limit
     fee = full_chunks * xl
-    remaining_vol_weight = vol_weight - full_chunks * limit
+    remaining_vol_weight = vol_weight - (full_chunks * limit)
 
-    fee += _calc_tiers_fee(remaining_vol_weight)
+    fee += _calc_tiers_fee(remaining_vol_weight, s)
     
     return fee
 
