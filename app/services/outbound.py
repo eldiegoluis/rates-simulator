@@ -21,12 +21,13 @@ def _calc_tiers_fee(remaining: float, s: Settings) -> float:
             remaining = 0
     return fee
 
+
 def compute_outbound(vol_weight: float,
                     s : Settings,
                     ) -> float:
     # here we deal with the whole order vol_weight 
 
-    limit = s.IN_VOL_WEIGHT_LIMIT
+    limit = s.XL_VOL_WEIGHT_LIMIT_OUT
     xl = s.XL_RATE_OUT
 
     if vol_weight < limit:

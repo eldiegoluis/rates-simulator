@@ -20,6 +20,7 @@ class Settings(NamedTuple):
     S_VOL_WEIGHT_LIMIT_OUT : int
     M_VOL_WEIGHT_LIMIT_OUT : int
     L_VOL_WEIGHT_LIMIT_OUT : int
+    XL_VOL_WEIGHT_LIMIT_OUT : int
 
     IN_VOL_WEIGHT_LIMIT: int
 
@@ -83,6 +84,8 @@ def get_settings() -> Settings:
         S_VOL_WEIGHT_LIMIT_OUT   = int(os.getenv("S_VOL_WEIGHT_LIMIT_OUT")),
         M_VOL_WEIGHT_LIMIT_OUT   = int(os.getenv("M_VOL_WEIGHT_LIMIT_OUT")),
         L_VOL_WEIGHT_LIMIT_OUT   = int(os.getenv("L_VOL_WEIGHT_LIMIT_OUT")),
+        XL_VOL_WEIGHT_LIMIT_OUT   = int(os.getenv("XL_VOL_WEIGHT_LIMIT_OUT")),
+
         
         S_RATE_OUT               = float(os.getenv("S_RATE_OUT")),
         M_RATE_OUT               = float(os.getenv("M_RATE_OUT")),
