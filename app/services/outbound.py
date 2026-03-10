@@ -8,19 +8,18 @@ def _calc_tiers_fee(remaining: float, s: Settings) -> float:
     tiers = s.sorted_tiers
     
     fee = 0.0
-    prev_weight = 55
     while remaining > 0:
-        for vol_weight, rate in tiers:
-            if remaining >= vol_weight:
-                fee += rate
-                remaining -= prev_weight
-                prev_weight = vol_weight
-                # Once a tier is applied, restart checking from the highest tier.
-                break
+        # 1. Si el número es grande, resta bloques de 55
+        if remaining >= tiers[0][0]:
+            vol_weight, rate = tiers[0]
+            fee += rate
+            remaining -= vol_weight
         else:
-            # remainder below smallest block: charge one smallest‑block fee
-            fee += tiers[-1][1]
-            remaining = 0
+            # 2. Si es menor a 55, busca el bloque más pequeño que lo cubra
+            vol_weight, rate = next(t for t in reversed(tiers) if t[0] >= remaining)
+            fee += rate
+            remaining = 0 # Al cubrirlo con un bloque "techo", el remanente llega a cero
+            
     return fee
 
 
