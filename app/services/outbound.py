@@ -8,19 +8,28 @@ def _calc_tiers_fee(remaining: float, s: Settings) -> float:
     tiers = s.sorted_tiers
     
     fee = 0.0
+
     while remaining > 0:
-        # 1. Si el número es grande, resta bloques de 55
-        if remaining >= tiers[0][0]:
-            vol_weight, rate = tiers[0]
-            fee += rate
-            remaining -= vol_weight
+        # 1. Comparamos contra L_VOL_WEIGHT_LIMIT_OUT
+        # Si pasa, restamos 1 bloque de XL.max_weight, sumamos tarifa 
+        # y chao
+        l_max_weight = tiers[0][0]
+        l_price = tiers[0][1]
+        if remaining >= l_max_weight:
+            fee += l_price
+            remaining -= l_max_weight
+            # Al cubrirlo con el bloque "techo", el remanente llega a cero
         else:
-            # 2. Si es menor a 55, busca el bloque más pequeño que lo cubra
-            vol_weight, rate = next(t for t in reversed(tiers) if t[0] >= remaining)
-            fee += rate
-            remaining = 0 # Al cubrirlo con un bloque "techo", el remanente llega a cero
-            
+            # 2. Si es menor a L.max_weight, busca el bloque más pequeño que lo cubra
+            for vol_weight, rate in reversed(tiers):
+                if vol_weight >= remaining:
+                    fee += rate
+                    break
+            remaining = 0
     return fee
+
+
+
 
 
 def compute_outbound(vol_weight: float,
@@ -32,11 +41,11 @@ def compute_outbound(vol_weight: float,
     xl = s.XL_RATE_OUT
 
     if vol_weight < limit:
-        if vol_weight < 5:
+        if vol_weight < s.S_VOL_WEIGHT_LIMIT_OUT:
             return s.S_RATE_OUT
-        if vol_weight < 15:
+        if vol_weight < s.M_VOL_WEIGHT_LIMIT_OUT:
             return s.M_RATE_OUT
-        if vol_weight < 55:
+        if vol_weight < s.L_VOL_WEIGHT_LIMIT_OUT:
             return s.L_RATE_OUT
         return s.XL_RATE_OUT
     
