@@ -16,8 +16,8 @@ def _calc_tiers_fee(remaining: float, s: Settings) -> float:
         l_max_weight = tiers[0][0]
         l_price = tiers[0][1]
         if remaining >= l_max_weight:
-            fee += l_price
-            remaining -= l_max_weight
+            fee += s.XL_RATE_OUT
+            remaining -= s.XL_VOL_WEIGHT_LIMIT_OUT
             # Al cubrirlo con el bloque "techo", el remanente llega a cero
         else:
             # 2. Si es menor a L.max_weight, busca el bloque más pequeño que lo cubra
