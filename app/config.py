@@ -35,6 +35,8 @@ class Settings(NamedTuple):
     M_RATE_OUT: float
     L_RATE_OUT: float
     XL_RATE_OUT: float
+
+    BROKEN_STOWAGE: float
  
 
     DIVISOR: int
@@ -91,6 +93,9 @@ def get_settings() -> Settings:
         M_RATE_OUT               = float(os.getenv("M_RATE_OUT")),
         L_RATE_OUT               = float(os.getenv("L_RATE_OUT")),
         XL_RATE_OUT         = float(os.getenv("XL_RATE_OUT")),
+
+        BROKEN_STOWAGE = float(os.getenv("BROKEN_STOWAGE")),
+
         
         DIVISOR              = int(os.getenv("DIVISOR")),
 

@@ -13,7 +13,9 @@ def compute_volume_weight(product: Product) -> float:
 
 def compute_volume(product: Product) -> float:
 
-    return product.height * product.width * product.depth
+    s = get_settings()
+
+    return product.height * product.width * product.depth * (1 + s.BROKEN_STOWAGE)
 
 def apply_volumetrics(products: list[Product]) -> None:
     for p in products:
